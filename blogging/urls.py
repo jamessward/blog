@@ -5,8 +5,10 @@ The `urlpatterns` list routes URLs to views. For more information please see:
 """
 
 from django.urls import path
-from blogging.views import stub_view
+from blogging.views import detail_view, list_view, stub_view
 
 urlpatterns = [
-    path('', stub_view, name="blog_index"),
+    path('', list_view, name="blog_index"),
+    # Captures digits as the post_id
+    path('posts/<int:post_id>/', detail_view, name="blog_detail"),
 ]
