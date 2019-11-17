@@ -1,13 +1,17 @@
+"""
+Database models for blogging application
+
+https://docs.djangoproject.com/en/2.2/topics/db/models/
+"""
+
 from django.db import models
 from django.contrib.auth.models import User
 
 
 class Post(models.Model):
     """
-    https://docs.djangoproject.com/en/2.2/topics/db/models/
+    Blog post class
     """
-    def __str__(self):
-        return self.title
 
     title = models.CharField(max_length=128)
     text = models.TextField(blank=True)
@@ -15,3 +19,21 @@ class Post(models.Model):
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
     published_date = models.DateTimeField(blank=True, null=True)
+
+    def __str__(self):
+        return self.title
+
+
+class Category(models.Model):
+    """
+    Blog post categories class
+    """
+    name = models.CharField(max_length=128)
+    description = models.TextField(blank=True)
+    posts = models.ManyToManyField(Post, blank=True, related_name='categories')
+
+    class Meta:
+        verbose_name_plural = 'Categories'
+
+    def __str__(self):
+        return self.name
