@@ -12,7 +12,6 @@ class Post(models.Model):
     """
     Blog post class
     """
-
     title = models.CharField(max_length=128)
     text = models.TextField(blank=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
