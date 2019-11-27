@@ -6,6 +6,10 @@ from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import render
 from django.template import loader
 
+from django.contrib.auth.models import User, Group
+from rest_framework import viewsets
+from blogging.serializers import UserSerializer, GroupSerializer
+
 
 def detail_view(request, post_id):
     published = Post.objects.exclude(published_date__exact=None)
@@ -36,3 +40,19 @@ def stub_view(request, *args, **kwargs):
         body += "Kwargs:\n"
         body += "\n".join(["\t%s: %s" % i for i in kwargs.items()])
     return HttpResponse(body, content_type="text/plain")
+
+
+class UserViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows users to be viewed or edited.
+    """
+    queryset = User.objects.all().order_by('-date_joined')
+    serializer_class = UserSerializer
+
+
+class GroupViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows groups to be viewed or edited.
+    """
+    queryset = Group.objects.all()
+    serializer_class = GroupSerializer
